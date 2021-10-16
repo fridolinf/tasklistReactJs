@@ -26,22 +26,69 @@ import "./App.css"
     },
   ]
   )
-  const [openModal, setOpenModal] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
+  const [isId, selectedId] = useState({id: 0});
+  const [isEdit, setIsEdit] = useState(false);
+   const [data, setData] = useState({
+     id: "",
+     title: ""
+  })
+
   const addTask = data => {
-    console.log(data);
     const id = todos.length
     const newData = {
       id: id + 1,
       title: data
     }
-    setTodos({
-      setTodos: ([...todos, newData])
-    })
-    console.log(...todos, newData);
-  }
+      setTodos([...todos, newData])
+   }
 
+  //  Delete
+   const deleteTask = () => {
+    const {id} = isId;
+    setTodos(todos => todos.filter(item => item.id !== id))
+    setIsDelete(false)
+   }
 
-  return (
+   const openConfirm = (id) => {
+     setIsDelete(true)
+     selectedId({ id })
+    }
+
+   const closeConfirmModal = () => {
+    setIsDelete(false)
+   }
+
+  //  Edit
+   const openEdit = (id, data) => {
+     setIsEdit(true);
+     setData({
+       id,
+       title: data
+     })
+   }
+   const closeEdit = () => {
+     setIsEdit(false);
+   }
+
+   const setTitle = e => {
+     setData({
+       ...data,
+        title: e.target.value
+     })
+   }
+
+   const update = () => {
+     const { id, title } = data
+     const newData = { id, title }
+     const newTodos = todos
+     newTodos.splice((id - 1), 1, newData)
+     setTodos(newTodos)
+     setIsEdit(false)
+     setData({id: "", title: ""})
+   }
+
+   return (
     <div>
          <div className="app">
       <div className="logo">
@@ -49,12 +96,12 @@ import "./App.css"
         <h3>Task List</h3>
       </div>
           <div className="list">
-            {todos.map(item =>
+            {todos.map (item =>
               <TodoItem
                 key={item.id}
                 todo={item}
-                del={(id) => this.openConfirmModal(id)}
-                open={openModal}
+                del={openConfirm}
+                open={openEdit}
               />
               )}
       </div>
@@ -63,23 +110,23 @@ import "./App.css"
             add={addTask}
           />
       </div>
-         {/* <EditModal
-            edit={this.state.isEdit}
-            close={this.closeModal}
-            change={this.setTitle}
-            data={this.state.editData}
-            update={this.update}
+         <EditModal
+            edit={isEdit}
+            close={closeEdit}
+            change={setTitle}
+            data={data}
+            update={update}
           />
           {todos.map(item =>
             <ConfirmModal
             key={item.id}
             dataC={item}
-            openIsDelete={this.state.isDelete}
-            closed={this.closeConfirmModal}
-            deleted={this.deleteTask}
-            itemId={this.state.selectedId}
+            openIsDelete={isDelete}
+            closed={closeConfirmModal}
+            deleted={deleteTask}
+            itemId={selectedId}
           />
-          )} */}
+          )}
         </div>
       </div>
   )

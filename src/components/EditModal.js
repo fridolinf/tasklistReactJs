@@ -1,42 +1,40 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Button from './Button';
 import PropTypes from "prop-types";
 import "../styles/EditModal.css"
 
-class EditModal extends Component {
-    render() {
-        const { edit, close, data, change, update} = this.props;
-        if (edit) {
-                return (
-                    <div className="modal-container">
-                        <div className="modal-box">
-                            <h3>Edit task</h3>
-                            <div className="input">
-                                <input
-                                    type="text"
-                                    value={data.title}
-                                    onChange={change}
-                                />
-                            </div>
-                            <div className="btn-group">
-                                <Button
-                                    text="ok"
-                                    variant="success"
-                                    action={update}
-                                />
-                                <Button
-                                    text="tutup"
-                                    variant="warning"
-                                    action={close}
-                                />
-                            </div>
-                        </div>
+
+ function EditModal({ edit, close, data, change, update} ) {
+    if (edit) {
+        return (
+            <div className="modal-container">
+                <div className="modal-box">
+                    <h3>Edit task</h3>
+                    <div className="input">
+                        <input
+                            type="text"
+                            value={data.title}
+                            onChange={change}
+                        />
                     </div>
-                )
-        }
-        else{
-            return null;
-        }
+                    <div className="btn-group">
+                        <Button
+                            text="ok"
+                            variant="success"
+                            action={update}
+                        />
+                        <Button
+                            text="tutup"
+                            variant="warning"
+                            action={close}
+                        />
+                    </div>
+                </div>
+            </div>
+        )
+    }
+    else{
+        return null;
     }
 }
 
