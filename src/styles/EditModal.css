@@ -30,6 +30,10 @@
   width: 70%;
 }
 
+span {
+  color: red;
+}
+
 @keyframes show {
   from {
     top: -100px;

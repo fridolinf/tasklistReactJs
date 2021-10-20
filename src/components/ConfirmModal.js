@@ -1,22 +1,20 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Button from './Button';
 import PropTypes from "prop-types";
 import "../styles/EditModal.css"
 
-function ConfirmModal({openIsDelete, closed, deleted, itemId}) {
-    const delById = id => {
-        deleted(id)
-    }
+function ConfirmModal({openIsDelete, closed, deleted, itemId, dataC}) {
+
     if (openIsDelete) {
         return (
             <div className="modal-container">
                 <div className="modal-box">
-                    <h3>Are you sure?</h3>
+                    <h3>anda yakin? data akan dihapus.</h3>
                     <div className="btn-group">
                         <Button
                             text="ok"
                             variant="success"
-                            action={() => delById(itemId)}
+                            action={() => deleted(itemId)}
                         />
                         <Button
                             text="tutup"

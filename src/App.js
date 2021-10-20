@@ -5,88 +5,69 @@ import TodoItem from "./components/TodoItem"
 import EditModal from './components/EditModal'
 import ConfirmModal from './components/ConfirmModal'
 import "./App.css"
+import { useSelector, useDispatch } from "react-redux";
+import { del } from './store/actions/listAction';
 
- function App() {
-  const [todos, setTodos] = useState([
-    {
-      id: 1,
-      title: "reading a book"
-    },
-    {
-      id: 2,
-      title: "workout"
-    },
-    {
-      id: 3,
-      title: "kerjaan"
-    },
-    {
-      id: 4,
-      title: "tidur"
-    },
-  ]
-  )
+function App() {
+  const todos = useSelector(state => state.lists.todos)
+  const dispatch = useDispatch();
   const [isDelete, setIsDelete] = useState(false);
   const [isId, selectedId] = useState({id: 0});
-  const [isEdit, setIsEdit] = useState(false);
-   const [data, setData] = useState({
-     id: "",
-     title: ""
-  })
+  // const [isEdit, setIsEdit] = useState(false);
+  //  const [data, setData] = useState({
+  //    id: "",
+  //    title: ""
+  // })
 
-  const addTask = data => {
-    const id = todos.length
-    const newData = {
-      id: id + 1,
-      title: data
+  const c = (itemId) => {
+    if (itemId === todos.id) {
+        console.log(itemId, todos.id, "ss");
     }
-      setTodos([...todos, newData])
-   }
-
+}
   //  Delete
-   const deleteTask = () => {
+  const deleteTask = () => {
     const {id} = isId;
-    setTodos(todos => todos.filter(item => item.id !== id))
+    dispatch(del(id))
     setIsDelete(false)
    }
 
    const openConfirm = (id) => {
+     selectedId({id})
      setIsDelete(true)
-     selectedId({ id })
     }
 
    const closeConfirmModal = () => {
     setIsDelete(false)
    }
 
-  //  Edit
-   const openEdit = (id, data) => {
-     setIsEdit(true);
-     setData({
-       id,
-       title: data
-     })
-   }
-   const closeEdit = () => {
-     setIsEdit(false);
-   }
+  // //  Edit
+  //  const openEdit = (id, data) => {
+  //    setIsEdit(true);
+  //    setData({
+  //      id,
+  //      title: data
+  //    })
+  //  }
+  //  const closeEdit = () => {
+  //    setIsEdit(false);
+  //  }
 
-   const setTitle = e => {
-     setData({
-       ...data,
-        title: e.target.value
-     })
-   }
+  //  const setTitle = e => {
+  //    setData({
+  //      ...data,
+  //       title: e.target.value
+  //    })
+  //  }
 
-   const update = () => {
-     const { id, title } = data
-     const newData = { id, title }
-     const newTodos = todos
-     newTodos.splice((id - 1), 1, newData)
-     setTodos(newTodos)
-     setIsEdit(false)
-     setData({id: "", title: ""})
-   }
+  //  const update = () => {
+  //    const { id, title } = data
+  //    const newData = { id, title }
+  //    const newTodos = todos
+  //    newTodos.splice((id - 1), 1, newData)
+  //    setTodos(newTodos)
+  //    setIsEdit(false)
+  //    setData({id: "", title: ""})
+  //  }
 
    return (
     <div>
@@ -101,22 +82,21 @@ import "./App.css"
                 key={item.id}
                 todo={item}
                 del={openConfirm}
-                open={openEdit}
+                // open={openEdit}
               />
               )}
       </div>
       <div className="input-form">
           <FormInput
-            add={addTask}
           />
       </div>
-         <EditModal
+         {/* <EditModal
             edit={isEdit}
             close={closeEdit}
             change={setTitle}
             data={data}
             update={update}
-          />
+          /> */}
           {todos.map(item =>
             <ConfirmModal
             key={item.id}
@@ -128,7 +108,7 @@ import "./App.css"
           />
           )}
         </div>
-      </div>
+       </div>
   )
  }
 
